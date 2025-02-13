@@ -15,6 +15,8 @@
 
 # next.js
 /.next/
+/.next.dev/
+/.next.build/
 /out/
 
 # production
@@ -23,6 +25,10 @@
 # misc
 .DS_Store
 *.pem
+
+.husky
+husky-pre.js
+husky-post.js
 
 # debug
 npm-debug.log*
@@ -39,3 +45,6 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+package-lock.json
+package.json.bak

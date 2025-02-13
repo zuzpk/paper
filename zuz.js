@@ -1,15 +1,24 @@
-import type { NextConfig } from "next";
+/* eslint-disable @typescript-eslint/no-unused-vars */
+const API_URL = "http://localhost:3001/@/"
+// eslint-disable-next-line @typescript-eslint/no-require-imports
+const fs = require("fs");
+
+const buildConf = () => {
+
+const [ d, distDir, bistDir ] = process.argv.find(v => v.indexOf('dir=') > -1).split("=")
+
+return `import type { NextConfig } from "next";
 import { env } from "process";
 
 const nextConfig: NextConfig = {
 
   async rewrites(){
     return [
-      { source: "/@/:method*/:action*", destination: "http://localhost:3001/@/:method*/:action*" },
-      { source: "/@/:method*", destination: "http://localhost:3001/@/:method*" }
+      { source: "/@/:method*/:action*", destination: "${API_URL}:method*/:action*" },
+      { source: "/@/:method*", destination: "${API_URL}:method*" }
     ]
   },
-  distDir: ".next.dev",
+  distDir: "${bistDir || distDir || `.next`}",
   cleanDistDir: true,
   poweredByHeader: false,
   images: {
@@ -48,4 +57,14 @@ const nextConfig: NextConfig = {
 
 };
 
-export default nextConfig;
+export default nextConfig;`;
+}
+
+fs.writeFileSync(
+    `./next.config.ts`,
+    buildConf(),
+    {
+        encoding:'utf8',
+        flag:'w'
+    }
+)
