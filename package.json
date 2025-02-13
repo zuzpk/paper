@@ -1,6 +1,6 @@
 {
   "name": "frontend-ts",
-  "version": "0.1.3",
+  "version": "0.1.4",
   "private": true,
   "scripts": {
     "dev": "concurrently \"zuzjs\" \"node zuz.js mode=dev dir=.next.dev\" \"next dev -p 3000\"",
