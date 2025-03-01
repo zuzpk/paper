@@ -1,6 +1,9 @@
 /**
 * @file /src/app/done.tsx
 */
+.fXdZS1d{font-size: 24px;}
+.f34czo{font-weight: bold;}
+.fXdNIDg{font-size: 16px;}
 .wbzkHNJ{width: 500px;}
 .pGpbI38{padding: 20px;}
 .bqLohRB{border-radius: var(--radius);}
@@ -12,30 +15,27 @@
 .mbaBtOg{margin-bottom: 25px;}
 .cXE0UEj{color: var(--red-800);}
 .c4krskq{color: var(--green-700);}
-.fXdZS1d{font-size: 24px;}
-.f34czo{font-weight: bold;}
-.fXdNIDg{font-size: 16px;}
 /**
 * @file /src/app/error.tsx
 */
-.pe7iGy{position:absolute;}
-.tlptjq{top: 50%;left: 50%;transform: translate(-50%, -50%);}
-.cObJUAV{color: #777;}
-.f8QaiEE{font-weight: 900;}
-.f5aAhOw{font-size: 30px;}
-.mzQEH07{margin-top: 20px;}
 .fB4pieP{font-size: 18px;}
+.pg9hBD{position:relative;}
+.zMZZsRX{z-index: 3;}
+.waBbCMP{width: 100%;}
+.pd3ovmEtaZ{padding: 20vh 20px 20px 20px;}
+.hm8qi5k{height: 10px;}
+.mo3dsBX{margin-top: 25px;}
 /**
 * @file /src/app/header.tsx
 */
 .p8DPeUqd{padding: 40px 25px;}
-.pg9hBD{position:relative;}
 .zqdBFEX{z-index: 99;}
 
 .hXVkiEW{height: 70px;}
 .fqPGSJX{flex: 1;}
-.gylLTW3{gap: 10px;}
+.glP5TDj{gap: 4px;}
 .wRojU4b{width: 25px;}
+.f8QaiEE{font-weight: 900;}
 .fjEwi1N{font-size: 14px;}
 .bWllTp1{background: var(--button-link);}
 .baobfnN{border-radius: 5px;}
@@ -43,9 +43,14 @@
 .bwyJiJA{border: 1px var(--button-link-border) solid;}
 .o03ktyj{opacity: 0.5;}
 .jQkCyD{justify-content:flex-end;}
+.gylLTW3{gap: 10px;}
+.bNvWhlv{background: rgba(0,0,0,0) !important;}
+.cav7ubO{color: var(--text);}
+.gBBPt2J{gap: 6px;}
+.foelHRG{font-size: 10px;}
 .mLlEtle{margin-left: 20px;}
-.mPvXfAm{margin-right: 1px;}
 .tBpFe1{text-decoration:none;}
+.mPvXfAm{margin-right: 1px;}
 .pA0NsJ3{padding: 4px 10px;}
 .bN5ZqEfQb{border-radius: 20px 0px 0px 20px;}
 .z68blK{&:hover{background: var(--primary);border: 1px var(--primary) solid;color: #fff;transform: scale(1.1);}}
@@ -53,6 +58,12 @@
 .bMAlDf1L{border-radius: 0px 20px 20px 0px;}
 /**
 * @file /src/app/layout.tsx
+*/
+/**
+* @file /src/app/not-found.tsx
+*/
+/**
+* @file /src/app/oauth.tsx
 */
 /**
 * @file /src/app/page.tsx
@@ -69,8 +80,8 @@
 .mMaElUBq{min-height: calc(100vh - 70px);}
 .wwmGCX8{width: 400px;}
 .gJzVTZA{gap: 12px;}
+.f5aAhOw{font-size: 30px;}
 .mOomtWE{margin-bottom: 30px;}
-.mo3dsBX{margin-top: 25px;}
 .wEpGCwX{width: 100% !important;}
 .mmkwt34{margin-top: 35px;}
 /**
@@ -102,17 +113,6 @@
 /**
 * @file /src/ui.tsx
 */
-.bpAPIEM{background: var(--input);}
-.bqk2iEM{border: 0px;}
-.p9RZCMX{padding: 12px;}
-.cav7ubO{color: var(--text);}
-.waBbCMP{width: 100%;}
-.fwLlc7e{font-size: var(--text-size);}
-.bQoyUv9{background: var(--primary);}
-.prWourV{padding: 12px 20px;}
-.ck2ATm9{color: var(--btn-text);}
-.z68raK{&:hover{background: var(--primary-hover);text-decoration:none;}}
-.zKB3OY{&:disabled{background: #d4d9e2 !important;color: #a3a8b3 !important;cursor: auto;}}
 .zYXgLK{&:hover{text-decoration:underline;}}
 .cMD9fJP{color: var(--primary);}
 .bQwERWOioO{background-image: linear-gradient(92deg, var(--primary), #2488c8);}
@@ -123,5 +123,6 @@
 *Extra Small Devices (Phones)
 */
 @media screen and (max-width: 599px){
-.zxpnAY{padding: 20px;}
+	.zxpnAY{padding: 20px;}
 }
+

@@ -3,15 +3,23 @@ import React from 'react';
 
 type DoneProps = {
     type: `error` | `success`,
-    title?: string,
-    message?: string,
-    action?: () => void
+    title?: string | string[],
+    message?: string | string[],
+    action?: (e: any) => void
 }
 
 const Done : React.FC<DoneProps> = ({ type, title, message, action }) => {
 
     const mounted = useDelayed()
-    
+    const _animation = {
+        transition: TRANSITIONS.SlideInBottom,
+        curve: TRANSITION_CURVES.Bounce,
+        duration: .5,
+        when: mounted
+    }
+    const _title = (m: string, delay = 0.1) => <Text as={`s:24 bold`} animate={{ ..._animation, delay }}>{m}</Text>
+    const _msg = (m: string, delay = 0.2) => <Text as={`s:16 bold`} animate={{ ..._animation, delay }}>{m}</Text>
+
     return <Box as={`w:500 p:20 r:$radius flex aic jcc cols`}>
         <Icon 
             name={type == `error` ? `lamp-on` : `emoji-happy`} 
@@ -25,24 +33,12 @@ const Done : React.FC<DoneProps> = ({ type, title, message, action }) => {
                 duration: .5,
                 when: mounted
             }} />
-        <Text 
-            as={`s:24 bold`}
-            animate={{
-                transition: TRANSITIONS.SlideInBottom,
-                curve: TRANSITION_CURVES.Bounce,
-                duration: .5,
-                delay: 0.1,
-                when: mounted
-            }}>{title || `Good Job`}</Text>
-        <Text 
-            as={`s:16`}
-            animate={{
-                transition: TRANSITIONS.SlideInBottom,
-                curve: TRANSITION_CURVES.Bounce,
-                duration: .5,
-                delay: 0.2,
-                when: mounted
-            }}>{message || `That was easy. You did it :)`}</Text>
+        { Array.isArray(title) ? <>{title?.map((m, i) => _title(m, 0.1 * (i + 1)))}</>
+                : _title(title || `Good Job`)}
+
+        { Array.isArray(message) ? <>{message?.map((m, i) => _msg(m, 0.2 * (i + 1)))}</>
+                : _msg(message || `That was easy. You did it :)`)}
+    
     </Box>
 }
 

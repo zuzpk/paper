@@ -1,11 +1,11 @@
 "use client"
-import { API_URL, APP_NAME, SESS_PREFIX } from '@/config';
+import { API_URL, APP_NAME, LocalDB, REDIRECT_AFTER_OAUTH } from '@/config';
 import Style from '@/ui';
 import { useStore } from '@zuzjs/store';
-import { Box, Button, dynamicObject, Form, FORMVALIDATION, Input, Password, Size, Text, TRANSITION_CURVES, TRANSITIONS, useMounted } from '@zuzjs/ui';
+import { Sheet, SheetHandler, Box, Button, dynamicObject, Form, FORMVALIDATION, Input, Password, Size, Text, TRANSITION_CURVES, TRANSITIONS, useMounted, useDB } from '@zuzjs/ui';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
-import React, { useEffect, useMemo } from 'react';
+import React, { useEffect, useMemo, useRef, useCallback } from 'react';
 import Cookies from "js-cookie"
 
 const Signup : React.FC = (props) => {
@@ -17,23 +17,29 @@ const Signup : React.FC = (props) => {
         when: mounted,
         duration: 0.5
     }), [mounted])
-    const { dispatch } = useStore(`user`)
+    const { loading, ID, dispatch } = useStore(`user`)
     const router = useRouter();
+    const { insert } = useDB(LocalDB.you)
+    const toast = useRef<SheetHandler>(null)
 
-    const onSuccess = (resp: dynamicObject) => {
-
+    const onSuccess = useCallback((resp: dynamicObject) => {
         if ( resp.u ){
-            for( const key in resp.u ){
-                Cookies.set(`${SESS_PREFIX}${key}`, `${`string` == typeof resp.u[key] ? resp.u[key] : JSON.stringify(resp.u[key])}`, { expires: 90 })
-            }
-            dispatch({ ...resp.u.ud }).then(() => router.push(`/apps?v=${Date.now()}` as any))
+            insert(`you`, resp.u)
+            dispatch({ ...resp.u }).then(() => router.push(`${REDIRECT_AFTER_OAUTH}?v=${Date.now()}` as any))
         }
         else{
             router.push(`/u/verify/${resp.token}/${encodeURIComponent(resp.email)}` as any)
         }
-    }
+    }, [])
+
+    const onFailed = useCallback((err: dynamicObject) => {
+        toast.current?.error(err.message)
+      }, [])
 
     useEffect(() => {
+        if ( !loading && ID ){
+            router.push(`${REDIRECT_AFTER_OAUTH}?_=${Date.now()}` as any)
+        }
         document.title = `Sign Up`
     }, [])
 
@@ -42,11 +48,12 @@ const Signup : React.FC = (props) => {
             name={`signup`}
             action={`${API_URL}u/signup`}
             onSuccess={onSuccess}
+            onError={onFailed}
             errors={{
                 nm: `Name is required`,
                 em: `Valid email is required`,
-                passw: `Password is required`,
-                repassw: `Passwords do not match`
+                psw: `Password is required`,
+                rpsw: `Passwords do not match`
             }}
             as={`flex aic jcc cols w:400 gap:12`}>
             
@@ -54,8 +61,8 @@ const Signup : React.FC = (props) => {
 
             <Input name={`nm`} variant={Size.Medium} placeholder={`Name`} animate={anim} required />
             <Input name={`em`} variant={Size.Medium} placeholder={`Email`} animate={{ ...anim, delay: 0.1 }} required with={FORMVALIDATION.Email} />
-            <Password name={`passw`} variant={Size.Medium} placeholder={`Password`} animate={{ ...anim, delay: 0.2 }} required />
-            <Password name={`repassw`} variant={Size.Medium} placeholder={`Repeat Password`} animate={{ ...anim, delay: 0.3 }} required with={`match@passw`} />
+            <Password name={`psw`} variant={Size.Medium} placeholder={`Password`} animate={{ ...anim, delay: 0.2 }} required />
+            <Password name={`rpsw`} variant={Size.Medium} placeholder={`Repeat Password`} animate={{ ...anim, delay: 0.3 }} required with={`match@psw`} />
 
             <Button type={`submit`} size={Size.Medium} as={`w:100%! mt:25`} animate={{ ...anim, delay: 0.35 }}>Create Account</Button>
 
@@ -63,6 +70,7 @@ const Signup : React.FC = (props) => {
             <Text animate={{ ...anim, delay: 0.45 }}>Already have an account? <Link className={Style.Link} href={`/u/signin`}>Sign in here</Link></Text>
 
         </Form>
+        <Sheet ref={toast} />
     </Box>
 }
 

@@ -1,6 +1,6 @@
 {
   "name": "frontend-ts",
-  "version": "0.1.5",
+  "version": "0.1.6",
   "private": true,
   "scripts": {
     "dev": "concurrently \"zuzjs\" \"node zuz.js mode=dev dir=.next.dev\" \"next dev -p 3000\"",
@@ -10,8 +10,9 @@
     "prepare": "husky"
   },
   "dependencies": {
-    "@zuzjs/store": "0.1.4",
-    "@zuzjs/ui": "0.6.7",
+    "@types/js-cookie": "3.0.6",
+    "@zuzjs/store": "^0.1.4",
+    "@zuzjs/ui": "^0.7.5",
     "js-cookie": "^3.0.5",
     "next": "15.1.6",
     "react": "^19.0.0",

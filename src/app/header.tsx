@@ -1,23 +1,46 @@
 "use client"
-import { APP_NAME, APP_VERSION } from "@/config"
+import { APP_NAME, APP_VERSION, LocalDB } from "@/config"
+import { User } from "@/types"
 import { useStore } from "@zuzjs/store"
-import { Box, ColorScheme, css, Image, SelectTabs, Text, TRANSITION_CURVES, TRANSITIONS, useDelayed } from "@zuzjs/ui"
+import { withPost, Spinner, Avatar, Icon, Button, Box, ColorScheme, css, Image, SelectTabs, Text, TRANSITION_CURVES, TRANSITIONS, useDelayed, ContextMenu, ContextMenuHandler, useContextMenu, useDB, SheetHandler } from "@zuzjs/ui"
 import Link from "next/link"
-import { useRef } from "react"
-import { useState } from "react"
+import { usePathname, useRouter } from "next/navigation"
+import { useRef, useState, useCallback, useEffect } from "react"
 
 const Header = () => {
 
-    const me = useStore(`user`)
-    const [ signOut, setSignout ] = useState(false)
-    const toast = useRef(null)
+    const me = useStore<User>(`user`)
+    const toast = useRef<SheetHandler>(null)
     const mounted = useDelayed()
+    const pathname = usePathname()
+    const router = useRouter()
+    const userMenu = useRef<ContextMenuHandler>(null)
+    const userMenuParent = useRef<HTMLDivElement>(null)
+    const { show: showUserMenu, hide: hideUserMenu } = useContextMenu(userMenu);
+    const { remove } = useDB(LocalDB.you)
+
+    const signOut = useCallback(() => {
+        me.dispatch({ loading: true });
+        withPost(`/@/u/signout`, {})
+        .then((resp) => {
+            console.log(`med`, me.ID!)
+            remove(`you`, me.ID!)
+            me.dispatch({ loading: false, ID: null, oid: null })
+            if ( pathname != `/` ){
+                router.push(`/?so=${Date.now()}`)
+            }
+        })
+        .catch((err) => {
+            toast.current!.error(err.message || `Failed to signout. Please try again.`)
+            me.dispatch({ loading: false });
+        })
+    }, [me])
 
     return <Box as={[
         `header flex aic p:40,25 rel zIndex:99 &ph(p:20) h:70`,
     ]}>
         <Box as={`logo flex aic flex:1`}>
-            <Box as={`app-logo rel flex aic jcc gap:10`} animate={{
+            <Link href={`/` as any} className={css(`tdn`)}><Box as={`app-logo rel flex aic jcc gap:4`} animate={{
                 transition: TRANSITIONS.SlideInLeft,
                 duration: .5,
                 when: mounted,
@@ -27,15 +50,33 @@ const Header = () => {
                 <Text as={`s:18 b:900`}>{APP_NAME}</Text>
                 <Text as={`s:14 b:900 bg:$button-link r:5 p:1,4,0,4 border:1,$button-link-border,solid`}>UI</Text>
                 <Text as={`s:14 opacity:0.5`}>v{APP_VERSION}</Text>
-            </Box>
+            </Box></Link>
         </Box> 
 
         <Box as={`flex aic jce`}>
 
-            <ColorScheme />
-
-            <Link href={{ pathname: "/u/signin" }} className={css(`ml:20 mr:1 tdn p:4,10 border:1,$button-link-border,solid s:16 r:20,0,0,20 bg:$button-link &hover(bg:$primary border:1,$primary,solid c:fff scale:1.1) anim:0.1s`)}>Sign in</Link>
-            <Link href={{ pathname: "/u/signup" }} className={css(`tdn p:4,10 border:1,$button-link-border,solid s:16 r:0,20,20,0 bg:$button-link &hover(bg:$primary border:1,$primary,solid c:fff scale:1.1) anim:0.1s`)}>Create Account</Link>
+            { me.loading ? <Spinner /> : 
+                me.ID ? <>
+                    <Box as={`flex aic gap:10`} ref={userMenuParent}>
+                        <Button onClick={(ev) => showUserMenu(ev as any)} as={`bg:transparent! c:$text flex aic gap:6`}>
+                            <Avatar alt={me.name} />
+                            <Icon name={`arrow-down`} as={`c:$text s:10`} />
+                        </Button>
+                    </Box>
+                    <ContextMenu
+                    items={[
+                        { label: `Signout`, onSelect: signOut }
+                    ]}
+                    ref={userMenu} 
+                    offsetY={10}
+                    offsetX={20}
+                    parent={userMenuParent.current!} />
+                </>
+            : <>
+                <Link href={{ pathname: "/u/signin" }} className={css(`ml:20 mr:1 tdn p:4,10 border:1,$button-link-border,solid s:16 r:20,0,0,20 bg:$button-link &hover(bg:$primary border:1,$primary,solid c:fff scale:1.1) anim:0.1s`)}>Sign in</Link>
+                <Link href={{ pathname: "/u/signup" }} className={css(`tdn p:4,10 border:1,$button-link-border,solid s:16 r:0,20,20,0 bg:$button-link &hover(bg:$primary border:1,$primary,solid c:fff scale:1.1) anim:0.1s`)}>Create Account</Link>
+            </>}
+            <ColorScheme as={`ml:20`} />
 
         </Box>
     </Box>

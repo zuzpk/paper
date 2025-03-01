@@ -1,12 +1,12 @@
 "use client"
-import { API_URL, APP_NAME, REDIRECT_AFTER_OAUTH, SESS_PREFIX } from '@/config';
+import { LocalDB, API_URL, APP_NAME, REDIRECT_AFTER_OAUTH } from '@/config';
 import Style from '@/ui';
 import { useStore } from '@zuzjs/store';
-import { Box, Button, css, dynamicObject, Form, FORMVALIDATION, Input, Password, Size, Text, TRANSITION_CURVES, TRANSITIONS, useMounted } from '@zuzjs/ui';
+import { Sheet, SheetHandler, Box, Button, css, dynamicObject, Form, FORMVALIDATION, Input, Password, Size, Text, TRANSITION_CURVES, TRANSITIONS, useMounted, useDB } from '@zuzjs/ui';
 import Cookies from 'js-cookie';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
-import React, { useEffect, useMemo } from 'react';
+import React, { useEffect, useMemo, useRef, useCallback } from 'react';
 
 const Signin : React.FC = (props) => {
 
@@ -17,23 +17,32 @@ const Signin : React.FC = (props) => {
         when: mounted,
         duration: 0.5
     }), [mounted])
-    const { dispatch } = useStore(`user`)
+    const { loading, ID, dispatch } = useStore(`user`)
     const router = useRouter();
+    const { insert } = useDB(LocalDB.you)
+    const toast = useRef<SheetHandler>(null)
 
-    const onSuccess = (resp: dynamicObject) => {
-        for( const key in resp.u ){
-            Cookies.set(`${SESS_PREFIX}${key}`, `${`string` == typeof resp.u[key] ? resp.u[key] : JSON.stringify(resp.u[key])}`, { expires: 90 })
+    const onSuccess = useCallback((resp: dynamicObject) => {
+        insert(`you`, resp.u)
+        dispatch({ ...resp.u, loading: false }).then(() => router.push(`${REDIRECT_AFTER_OAUTH}?_=${Date.now()}` as any))
+    }, [])
+
+    const onFailed = useCallback((err: dynamicObject) => {
+        toast.current?.error(err.message)
+    }, [])
+
+    useEffect(() => {
+        if ( !loading && ID ){
+            router.push(`${REDIRECT_AFTER_OAUTH}?_=${Date.now()}` as any)
         }
-        dispatch({ ...resp.u.ud }).then(() => router.push(`${REDIRECT_AFTER_OAUTH}?_=${Date.now()}`))
-    }
-
-    useEffect(() => {}, [])
+    }, [loading, ID])
 
     return <Box as={`minH:calc[100vh - 70px] flex aic jcc`}>
         <Form 
             name={`signin`}
             action={`/@/u/signin`}
             onSuccess={onSuccess}
+            onError={onFailed}
             errors={{
                 em: `Valid email is required`,
                 psw: `Password is required`,
@@ -51,6 +60,7 @@ const Signin : React.FC = (props) => {
             <Text animate={{ ...anim, delay: 0.45 }}>New here? <Link className={css(`${Style.Link} bold`)} href={`/u/signup`}>Create account</Link></Text>
 
         </Form>
+        <Sheet ref={toast} />
     </Box>
 }
 

@@ -26,10 +26,6 @@
 .DS_Store
 *.pem
 
-.husky
-husky-pre.js
-husky-post.js
-
 # debug
 npm-debug.log*
 yarn-debug.log*
