@@ -11,10 +11,15 @@
   },
   "dependencies": {
     "@types/js-cookie": "3.0.6",
+    "@wooorm/starry-night": "^3.6.0",
     "@zuzjs/store": "^0.1.4",
     "@zuzjs/ui": "^0.7.6",
+    "babel": "link:prettier/plugins/babel",
+    "estree": "link:prettier/plugins/estree",
+    "hast-util-to-html": "^9.0.4",
     "js-cookie": "^3.0.5",
     "next": "15.1.6",
+    "prettier": "^3.4.2",
     "react": "^19.0.0",
     "react-dom": "^19.0.0"
   },

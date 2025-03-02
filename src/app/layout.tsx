@@ -11,7 +11,7 @@ const RootLayout = ({ children, }: Readonly<{ children: React.ReactNode; }>) => 
     <html suppressHydrationWarning lang="en">
       <head>
         <link rel="preconnect" href="https://fonts.zuzcdn.net" />
-        <link rel="stylesheet" href="https://fonts.zuzcdn.net/public/wj0HGfqhv/style.css" />
+        <link rel="stylesheet" href="https://fonts.zuzcdn.net/public/r0Rf8fzhj/style.css" />
       </head>
       <body>
         <ThemeProvider>

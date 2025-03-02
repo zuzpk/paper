@@ -52,7 +52,17 @@ const nextConfig: NextConfig = {
 
   // Performance and build optimizations
   productionBrowserSourceMaps: false,
-  reactStrictMode: false
+  reactStrictMode: false,
+
+  webpack: (config) => {
+    config.resolve.fallback = {
+      ...config.resolve.fallback,  
+      fs: false,
+      path: false,
+      url: false
+    };
+    return config;
+  },
 
 };
 

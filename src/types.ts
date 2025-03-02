@@ -1,3 +1,5 @@
+import { ReactNode } from "react";
+
 export type User = {
     loading: boolean,
     ID: string | null,
@@ -25,4 +27,28 @@ export enum DB {
     You = "you",
     Tree = "tree",
     Drive = "drive"
+}
+
+export type Control<T> = {
+    control?: "select" | "input" | "boolean"; 
+    options?: T,
+    default?: T extends (infer U)[] ? U : keyof T; 
+}
+
+export type ExtractProps<T> = {
+    [K in keyof T]: Control<T[K] | T[K][]>;
+};
+  
+export type Paper<T, N> = {
+    title: string,
+    component: T,
+    props?: PaperVariant<N>,
+    propsType?: ExtractProps<N>
+}
+
+export type PaperVariant<T> = {
+    children?: ReactNode,
+    // default?: T extends (infer U)[] ? U : keyof T; 
+} & {
+    [K in keyof T]: T[K]
 }

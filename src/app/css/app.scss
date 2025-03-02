@@ -2,6 +2,7 @@
 @use "./fonts.scss";
 @use "./theme.scss";
 @use "./zuz.scss";
+@use "./syntax.scss";
 
 *, body{font-family: "Roboto", sans-serif !important;}
 html,
@@ -12,4 +13,13 @@ body {
 
 nextjs-portal {
   display: none;
+}
+
+.code-block{
+  background:#282A36;
+  color: #8BE9FD;
+  padding: 20px;
+  font-size: 14px;
+  height: 100%;
+  overflow-x: hidden;
 }

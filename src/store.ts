@@ -1,3 +1,4 @@
+import { dynamicObject, TreeNode } from "@zuzjs/ui";
 import { APP_VERSION } from "./config";
 
 export const AppStore = {
@@ -10,5 +11,12 @@ export const AppStore = {
     User : {
         loading: true,
         ID: null
+    },
+    Docs: {
+        loading: true,
+        current: null,
+        modules: {} as dynamicObject,
+        roots: [] as string[],
+        list: [] as TreeNode[]
     }
 }

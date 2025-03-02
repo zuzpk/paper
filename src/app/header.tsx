@@ -27,7 +27,7 @@ const Header = () => {
             remove(`you`, me.ID!)
             me.dispatch({ loading: false, ID: null, oid: null })
             if ( pathname != `/` ){
-                router.push(`/?so=${Date.now()}`)
+                router.push(`/?so=${Date.now()}` as any)
             }
         })
         .catch((err) => {
