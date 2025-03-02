@@ -8,7 +8,6 @@ const buildConf = () => {
 const [ d, distDir, bistDir ] = process.argv.find(v => v.indexOf('dir=') > -1).split("=")
 
 return `import type { NextConfig } from "next";
-import { env } from "process";
 
 const nextConfig: NextConfig = {
 

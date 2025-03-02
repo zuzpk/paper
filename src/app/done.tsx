@@ -1,11 +1,14 @@
-import { Box, Icon, Text, TRANSITION_CURVES, TRANSITIONS, useDelayed } from '@zuzjs/ui';
-import React from 'react';
+import { Box, Button, Icon, Text, TRANSITION_CURVES, TRANSITIONS, useDelayed, Variant } from '@zuzjs/ui';
+import React, { ReactNode } from 'react';
 
 type DoneProps = {
     type: `error` | `success`,
     title?: string | string[],
     message?: string | string[],
-    action?: (e: any) => void
+    action?: {
+        label: ReactNode,
+        on: () => void
+    }
 }
 
 const Done : React.FC<DoneProps> = ({ type, title, message, action }) => {
@@ -17,8 +20,8 @@ const Done : React.FC<DoneProps> = ({ type, title, message, action }) => {
         duration: .5,
         when: mounted
     }
-    const _title = (m: string, delay = 0.1) => <Text as={`s:24 bold`} animate={{ ..._animation, delay }}>{m}</Text>
-    const _msg = (m: string, delay = 0.2) => <Text as={`s:16 bold`} animate={{ ..._animation, delay }}>{m}</Text>
+    const _title = (m: string, delay = 0.1) => <Text as={`s:24 bold`} fx={{ ..._animation, delay }}>{m}</Text>
+    const _msg = (m: string, delay = 0.2) => <Text as={`s:16 bold`} fx={{ ..._animation, delay }}>{m}</Text>
 
     return <Box as={`w:500 p:20 r:$radius flex aic jcc cols`}>
         <Icon 
@@ -27,7 +30,7 @@ const Done : React.FC<DoneProps> = ({ type, title, message, action }) => {
                 `s:50 mb:25`,
                 `${type == `error` ? `c:$red-800` : `c:$green-700`}`
             ]} 
-            animate={{
+            fx={{
                 transition: TRANSITIONS.SlideInTop,
                 curve: TRANSITION_CURVES.Bounce,
                 duration: .5,
@@ -38,6 +41,12 @@ const Done : React.FC<DoneProps> = ({ type, title, message, action }) => {
 
         { Array.isArray(message) ? <>{message?.map((m, i) => _msg(m, 0.2 * (i + 1)))}</>
                 : _msg(message || `That was easy. You did it :)`)}
+
+        {action && <Box as={`mt:25`} fx={{ ..._animation, delay: .5 }}>
+            <Button onClick={() => {
+                if ( action?.on ) action.on()
+            }} variant={Variant.Small}>{action?.label || `Re-try`}</Button>
+        </Box>}
     
     </Box>
 }

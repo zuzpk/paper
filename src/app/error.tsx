@@ -1,6 +1,6 @@
 "use client"
 import { ADMIN_EMAIL } from '@/config';
-import { Box, Button, Icon, Span, Text, TRANSITION_CURVES, TRANSITIONS, useDelayed, Variant } from '@zuzjs/ui';
+import { Box, Button, Span, Text, TRANSITION_CURVES, TRANSITIONS, useDelayed, Variant } from '@zuzjs/ui';
 import React, { ReactNode } from 'react';
 
 type ErrorProps = {
@@ -22,9 +22,9 @@ const Error : React.FC<ErrorProps> = ({ code, title, message, action }) => {
         duration: .5,
         when: mounted
     }
-    const _code = (m: string | number, delay = 0.1) => <Text as={`s:24 bold`} animate={{ ..._animation, delay }}>{m}</Text>
-    const _title = (m: string | number, delay = 0.1) => <Text as={`s:18 bold`} animate={{ ..._animation, delay }}>{m}</Text>
-    const _msg = (m: string | ReactNode, delay = 0.2) => <Text as={`s:16`} animate={{ ..._animation, delay }}>{m}</Text>
+    const _code = (m: string | number, delay = 0.1) => <Text as={`s:24 bold`} fx={{ ..._animation, delay }}>{m}</Text>
+    const _title = (m: string | number, delay = 0.1) => <Text as={`s:18 bold`} fx={{ ..._animation, delay }}>{m}</Text>
+    const _msg = (m: string | ReactNode, delay = 0.2) => <Text as={`s:16`} fx={{ ..._animation, delay }}>{m}</Text>
 
     return <Box as={`rel zIndex:3 app-error w:100% p:20vh,20,20,20 r:$radius flex aic jcc cols`}>
         {_code(code || `psst!`)}
@@ -41,7 +41,7 @@ const Error : React.FC<ErrorProps> = ({ code, title, message, action }) => {
                 {_msg(<Span>please try again in few or contact <b>{ADMIN_EMAIL}</b></Span>, .4)}
             </>}
 
-        {action && <Box as={`mt:25`} animate={{ ..._animation, delay: .5 }}>
+        {action && <Box as={`mt:25`} fx={{ ..._animation, delay: .5 }}>
             <Button onClick={() => {
                 if ( action?.on ) action.on()
             }} variant={Variant.Small}>{action?.label || `Re-try`}</Button>

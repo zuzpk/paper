@@ -1,14 +1,14 @@
 "use client"
-import { Box, dynamicObject, useDB } from '@zuzjs/ui';
-import React, { useCallback, useEffect } from 'react';
-import Cookies from "js-cookie"
 import { LocalDB, SESS_ID } from '@/config';
 import { User } from '@/types';
 import { useStore } from '@zuzjs/store';
+import { useDB } from '@zuzjs/ui';
+import Cookies from "js-cookie";
+import React, { useEffect } from 'react';
 
-const Authenticate : React.FC = (props) => {
+const Authenticate : React.FC = (_props) => {
 
-    const { insert, getByID } = useDB(LocalDB.you)
+    const { getByID } = useDB(LocalDB.you)
     const { dispatch } = useStore<User>(`user`)
 
     const oauth = async () => {
@@ -17,7 +17,7 @@ const Authenticate : React.FC = (props) => {
             .then((you) => {
                 dispatch({ ...you, loading: false })
             })
-            .catch((err) => {
+            .catch((_err) => {
                 dispatch({ loading: false, ID: null })
             })
 

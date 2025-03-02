@@ -1,14 +1,14 @@
 "use client"
 import { API_URL, APP_NAME, LocalDB, REDIRECT_AFTER_OAUTH } from '@/config';
+import { AppStore } from '@/store';
 import Style from '@/ui';
 import { useStore } from '@zuzjs/store';
-import { Sheet, SheetHandler, Box, Button, dynamicObject, Form, FORMVALIDATION, Input, Password, Size, Text, TRANSITION_CURVES, TRANSITIONS, useMounted, useDB } from '@zuzjs/ui';
+import { Box, Button, dynamicObject, Form, FORMVALIDATION, Input, Password, Sheet, SheetHandler, Size, Text, TRANSITION_CURVES, TRANSITIONS, useDB, useMounted, Variant } from '@zuzjs/ui';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
-import React, { useEffect, useMemo, useRef, useCallback } from 'react';
-import Cookies from "js-cookie"
+import React, { useCallback, useEffect, useMemo, useRef } from 'react';
 
-const Signup : React.FC = (props) => {
+const Signup : React.FC = (_props) => {
 
     const mounted = useMounted()
     const anim = useMemo(() => ({
@@ -17,7 +17,7 @@ const Signup : React.FC = (props) => {
         when: mounted,
         duration: 0.5
     }), [mounted])
-    const { loading, ID, dispatch } = useStore(`user`)
+    const { loading, ID, dispatch } = useStore<typeof AppStore.User>(`user`)
     const router = useRouter();
     const { insert } = useDB(LocalDB.you)
     const toast = useRef<SheetHandler>(null)
@@ -57,17 +57,17 @@ const Signup : React.FC = (props) => {
             }}
             as={`flex aic jcc cols w:400 gap:12`}>
             
-            <Text animate={{ ...anim, delay: 0.1 }} as={`s:30 b:900 mb:30`}>Sign up for {APP_NAME}</Text>
+            <Text fx={{ ...anim, delay: 0.1 }} as={`s:30 b:900 mb:30`}>Sign up for {APP_NAME}</Text>
 
-            <Input name={`nm`} variant={Size.Medium} placeholder={`Name`} animate={anim} required />
-            <Input name={`em`} variant={Size.Medium} placeholder={`Email`} animate={{ ...anim, delay: 0.1 }} required with={FORMVALIDATION.Email} />
-            <Password name={`psw`} variant={Size.Medium} placeholder={`Password`} animate={{ ...anim, delay: 0.2 }} required />
-            <Password name={`rpsw`} variant={Size.Medium} placeholder={`Repeat Password`} animate={{ ...anim, delay: 0.3 }} required with={`match@psw`} />
+            <Input name={`nm`} variant={Variant.Medium} placeholder={`Name`} fx={anim} required />
+            <Input name={`em`} variant={Variant.Medium} placeholder={`Email`} fx={{ ...anim, delay: 0.1 }} required with={FORMVALIDATION.Email} />
+            <Password name={`psw`} variant={Variant.Medium} placeholder={`Password`} fx={{ ...anim, delay: 0.2 }} required />
+            <Password name={`rpsw`} variant={Variant.Medium} placeholder={`Repeat Password`} fx={{ ...anim, delay: 0.3 }} required with={`match@psw` as any} />
 
-            <Button type={`submit`} size={Size.Medium} as={`w:100%! mt:25`} animate={{ ...anim, delay: 0.35 }}>Create Account</Button>
+            <Button type={`submit`} size={Size.Medium} as={`w:100%! mt:25`} fx={{ ...anim, delay: 0.35 }}>Create Account</Button>
 
-            <Text as={`mv:35`} animate={{ ...anim, delay: 0.4 }}>By clicking "Create account", you agree to the <Link className={Style.Link} href={`/help/terms`}>{APP_NAME} TOS</Link> and <Link className={Style.Link} href={`/help/privacy`}>Privacy Policy.</Link></Text>
-            <Text animate={{ ...anim, delay: 0.45 }}>Already have an account? <Link className={Style.Link} href={`/u/signin`}>Sign in here</Link></Text>
+            <Text as={`mv:35`} fx={{ ...anim, delay: 0.4 }}>By clicking "Create account", you agree to the <Link className={Style.Link} href={`/help/terms` as any}>{APP_NAME} TOS</Link> and <Link className={Style.Link} href={`/help/privacy` as any}>Privacy Policy.</Link></Text>
+            <Text fx={{ ...anim, delay: 0.45 }}>Already have an account? <Link className={Style.Link} href={`/u/signin`}>Sign in here</Link></Text>
 
         </Form>
         <Sheet ref={toast} />

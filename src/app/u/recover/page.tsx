@@ -1,12 +1,12 @@
 "use client"
-import { API_URL, APP_NAME } from '@/config';
+import { APP_NAME } from '@/config';
 import Style from '@/ui';
-import { Box, Button, css, dynamicObject, Form, FORMVALIDATION, Input, Size, Text, TRANSITION_CURVES, TRANSITIONS, useMounted } from '@zuzjs/ui';
+import { Box, Button, css, dynamicObject, Form, FORMVALIDATION, Input, Text, TRANSITION_CURVES, TRANSITIONS, useMounted, Variant } from '@zuzjs/ui';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import React, { useEffect, useMemo } from 'react';
 
-const Recover : React.FC = (props) => {
+const Recover : React.FC = (_props) => {
 
     const mounted = useMounted()
     const anim = useMemo(() => ({
@@ -34,14 +34,14 @@ const Recover : React.FC = (props) => {
             }}
             as={`flex aic jcc cols w:400 gap:12`}>
             
-            <Text animate={{ ...anim, delay: 0.1 }} as={`s:30 b:900 mb:30`}>Recover {APP_NAME} Account</Text>
+            <Text fx={{ ...anim, delay: 0.1 }} as={`s:30 b:900 mb:30`}>Recover {APP_NAME} Account</Text>
 
-            <Input variant={Size.Medium} name={`em`} placeholder={`Email`} animate={{ ...anim, delay: 0.1 }} required with={FORMVALIDATION.Email} />
+            <Input variant={Variant.Medium} name={`em`} placeholder={`Email`} fx={{ ...anim, delay: 0.1 }} required with={FORMVALIDATION.Email} />
             
-            <Button size={Size.Medium} type={`submit`} as={`mt:25 w:100%!`} animate={{ ...anim, delay: 0.35 }}>Continue</Button>
+            <Button variant={Variant.Medium} type={`submit`} as={`mt:25 w:100%!`} fx={{ ...anim, delay: 0.35 }}>Continue</Button>
 
-            <Text as={`mt:35`} animate={{ ...anim, delay: 0.45 }}>Already have an account? <Link className={css(`${Style.Link} bold`)} href={`/u/signin`}>Sign in here</Link></Text>
-            <Text animate={{ ...anim, delay: 0.45 }}>New here? <Link className={css(`${Style.Link} bold`)} href={`/u/signup`}>Create account</Link></Text>
+            <Text as={`mt:35`} fx={{ ...anim, delay: 0.45 }}>Already have an account? <Link className={css(`${Style.Link} bold`)} href={`/u/signin`}>Sign in here</Link></Text>
+            <Text fx={{ ...anim, delay: 0.45 }}>New here? <Link className={css(`${Style.Link} bold`)} href={`/u/signup`}>Create account</Link></Text>
 
         </Form>
     </Box>

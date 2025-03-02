@@ -1,11 +1,11 @@
 "use client"
-import { APP_VERSION } from "@/config";
-import createStore from "@zuzjs/store"
-import { Box, useColorScheme } from "@zuzjs/ui";
-import { useEffect, ReactNode } from "react";
-import Authenticate from "./oauth"
+import { AppStore } from "@/store";
+import createStore from "@zuzjs/store";
+import { Box } from "@zuzjs/ui";
+import "@zuzjs/ui/styles";
+import { ReactNode, useEffect } from "react";
 import Header from "./header";
-import "@zuzjs/ui/styles"
+import Authenticate from "./oauth";
 
 const Wrapper = ({ children } : Readonly<{ children: ReactNode; }>) => {
 
@@ -13,20 +13,10 @@ const Wrapper = ({ children } : Readonly<{ children: ReactNode; }>) => {
 
 }
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
 const Main = ({ children } : Readonly<{ children: ReactNode; }>) => {
 
-    const { Provider } = createStore(`app`, {
-        version: APP_VERSION,
-        debug: true,
-        token: null,
-        theme: `system`
-    })
-
-    const { Provider: UserProvider } = createStore(`user`, {
-        loading: true,
-        ID: null
-    })
+    const { Provider } = createStore(`app`, AppStore.App)
+    const { Provider: UserProvider } = createStore(`user`, AppStore.User)
     
     useEffect(() => {}, []);
 

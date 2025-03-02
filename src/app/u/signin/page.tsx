@@ -1,14 +1,14 @@
 "use client"
-import { LocalDB, API_URL, APP_NAME, REDIRECT_AFTER_OAUTH } from '@/config';
+import { APP_NAME, LocalDB, REDIRECT_AFTER_OAUTH } from '@/config';
+import { AppStore } from '@/store';
 import Style from '@/ui';
 import { useStore } from '@zuzjs/store';
-import { Sheet, SheetHandler, Box, Button, css, dynamicObject, Form, FORMVALIDATION, Input, Password, Size, Text, TRANSITION_CURVES, TRANSITIONS, useMounted, useDB } from '@zuzjs/ui';
-import Cookies from 'js-cookie';
+import { Box, Button, css, dynamicObject, Form, FORMVALIDATION, Input, Password, Sheet, SheetHandler, Text, TRANSITION_CURVES, TRANSITIONS, useDB, useMounted, Variant } from '@zuzjs/ui';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
-import React, { useEffect, useMemo, useRef, useCallback } from 'react';
+import React, { useCallback, useEffect, useMemo, useRef } from 'react';
 
-const Signin : React.FC = (props) => {
+const Signin : React.FC = (_props) => {
 
     const mounted = useMounted()
     const anim = useMemo(() => ({
@@ -17,7 +17,7 @@ const Signin : React.FC = (props) => {
         when: mounted,
         duration: 0.5
     }), [mounted])
-    const { loading, ID, dispatch } = useStore(`user`)
+    const { loading, ID, dispatch } = useStore<typeof AppStore.User>(`user`)
     const router = useRouter();
     const { insert } = useDB(LocalDB.you)
     const toast = useRef<SheetHandler>(null)
@@ -49,15 +49,15 @@ const Signin : React.FC = (props) => {
             }}
             as={`flex aic jcc cols w:400 gap:12`}>
             
-            <Text animate={{ ...anim, delay: 0.1 }} as={`s:30 b:900 mb:30`}>Signin to {APP_NAME}</Text>
+            <Text fx={{ ...anim, delay: 0.1 }} as={`s:30 b:900 mb:30`}>Signin to {APP_NAME}</Text>
 
-            <Input variant={Size.Medium} name={`em`} placeholder={`Email`} animate={{ ...anim, delay: 0.1 }} required with={FORMVALIDATION.Email} />
-            <Password variant={Size.Medium} name={`psw`} placeholder={`Password`} animate={{ ...anim, delay: 0.2 }} required />
+            <Input variant={Variant.Medium} name={`em`} placeholder={`Email`} fx={{ ...anim, delay: 0.1 }} required with={FORMVALIDATION.Email} />
+            <Password variant={Variant.Medium} name={`psw`} placeholder={`Password`} fx={{ ...anim, delay: 0.2 }} required />
             
-            <Button size={Size.Medium} type={`submit`} as={`w:100%! mt:25`} animate={{ ...anim, delay: 0.35 }}>Sign in</Button>
+            <Button variant={Variant.Medium} type={`submit`} as={`w:100%! mt:25`} fx={{ ...anim, delay: 0.35 }}>Sign in</Button>
 
-            <Text as={`mt:35`} animate={{ ...anim, delay: 0.4 }}><Link className={css(`${Style.Link} bold`)} href={`/u/recover`}>Forgot Password?</Link></Text>
-            <Text animate={{ ...anim, delay: 0.45 }}>New here? <Link className={css(`${Style.Link} bold`)} href={`/u/signup`}>Create account</Link></Text>
+            <Text as={`mt:35`} fx={{ ...anim, delay: 0.4 }}><Link className={css(`${Style.Link} bold`)} href={`/u/recover`}>Forgot Password?</Link></Text>
+            <Text fx={{ ...anim, delay: 0.45 }}>New here? <Link className={css(`${Style.Link} bold`)} href={`/u/signup`}>Create account</Link></Text>
 
         </Form>
         <Sheet ref={toast} />

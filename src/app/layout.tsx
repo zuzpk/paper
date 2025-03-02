@@ -1,20 +1,9 @@
 "use client"
 import "@/app/css/app.scss";
-import Wrapper from "./wrapper";
 import { GA_MEASUREMENT_ID } from "@/config";
+import { ThemeProvider } from "@zuzjs/ui";
 import Script from "next/script";
-import { ThemeProvider, useColorScheme } from "@zuzjs/ui";
-// import { Geist, Geist_Mono } from "next/font/google";
-
-// const geistSans = Geist({
-//   variable: "--font-geist-sans",
-//   subsets: ["latin"],
-// });
-
-// const geistMono = Geist_Mono({
-//   variable: "--font-geist-mono",
-//   subsets: ["latin"],
-// });
+import Wrapper from "./wrapper";
 
 const RootLayout = ({ children, }: Readonly<{ children: React.ReactNode; }>) => {
 

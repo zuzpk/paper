@@ -1,6 +1,6 @@
 {
   "name": "frontend-ts",
-  "version": "0.1.6",
+  "version": "0.1.7",
   "private": true,
   "scripts": {
     "dev": "concurrently \"zuzjs\" \"node zuz.js mode=dev dir=.next.dev\" \"next dev -p 3000\"",
@@ -12,7 +12,7 @@
   "dependencies": {
     "@types/js-cookie": "3.0.6",
     "@zuzjs/store": "^0.1.4",
-    "@zuzjs/ui": "^0.7.5",
+    "@zuzjs/ui": "^0.7.6",
     "js-cookie": "^3.0.5",
     "next": "15.1.6",
     "react": "^19.0.0",
@@ -26,6 +26,7 @@
     "concurrently": "^9.1.2",
     "eslint": "^9",
     "eslint-config-next": "15.1.6",
+    "sass": "^1.85.1",
     "typescript": "^5"
   }
 }

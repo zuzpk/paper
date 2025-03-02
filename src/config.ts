@@ -14,9 +14,9 @@ export const ADMIN_EMAIL = `hello@zuz.com.pk`;
 export const REDIRECT_AFTER_OAUTH = `/`;
 
 export const LocalDB = {
-    you: <IDBOptions>{
+    you: {
         name: APP_NAME.toLowerCase(),
-        version: APP_VERSION,
+        version: +APP_VERSION.replace(/\./g, ``),
         meta: [
             {
                 name: `you`,
@@ -31,5 +31,5 @@ export const LocalDB = {
                 ],
             },
         ]
-    }
+    } satisfies IDBOptions
 }

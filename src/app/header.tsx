@@ -2,10 +2,10 @@
 import { APP_NAME, APP_VERSION, LocalDB } from "@/config"
 import { User } from "@/types"
 import { useStore } from "@zuzjs/store"
-import { withPost, Spinner, Avatar, Icon, Button, Box, ColorScheme, css, Image, SelectTabs, Text, TRANSITION_CURVES, TRANSITIONS, useDelayed, ContextMenu, ContextMenuHandler, useContextMenu, useDB, SheetHandler } from "@zuzjs/ui"
+import { Avatar, Box, Button, ColorScheme, ContextMenu, ContextMenuHandler, css, Icon, Image, SheetHandler, Spinner, Text, TRANSITION_CURVES, TRANSITIONS, useContextMenu, useDB, useDelayed, withPost } from "@zuzjs/ui"
 import Link from "next/link"
 import { usePathname, useRouter } from "next/navigation"
-import { useRef, useState, useCallback, useEffect } from "react"
+import { useCallback, useRef } from "react"
 
 const Header = () => {
 
@@ -16,13 +16,13 @@ const Header = () => {
     const router = useRouter()
     const userMenu = useRef<ContextMenuHandler>(null)
     const userMenuParent = useRef<HTMLDivElement>(null)
-    const { show: showUserMenu, hide: hideUserMenu } = useContextMenu(userMenu);
+    const { show: showUserMenu } = useContextMenu(userMenu);
     const { remove } = useDB(LocalDB.you)
 
     const signOut = useCallback(() => {
         me.dispatch({ loading: true });
         withPost(`/@/u/signout`, {})
-        .then((resp) => {
+        .then((_resp) => {
             console.log(`med`, me.ID!)
             remove(`you`, me.ID!)
             me.dispatch({ loading: false, ID: null, oid: null })
@@ -40,7 +40,7 @@ const Header = () => {
         `header flex aic p:40,25 rel zIndex:99 &ph(p:20) h:70`,
     ]}>
         <Box as={`logo flex aic flex:1`}>
-            <Link href={`/` as any} className={css(`tdn`)}><Box as={`app-logo rel flex aic jcc gap:4`} animate={{
+            <Link href={`/` as any} className={css(`tdn`)}><Box as={`app-logo rel flex aic jcc gap:4`} fx={{
                 transition: TRANSITIONS.SlideInLeft,
                 duration: .5,
                 when: mounted,

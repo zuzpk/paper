@@ -1,16 +1,12 @@
 "use client"
 import Done from '@/app/done';
-import Error from '@/app/error';
-import { API_URL, APP_NAME, SESS_PREFIX } from '@/config';
 import Style from '@/ui';
-import { useStore } from '@zuzjs/store';
-import { Box, Button, Cover, css, dynamicObject, Form, FORMVALIDATION, Input, Password, PinInput, Sheet, SheetHandler, Size, Text, TRANSITION_CURVES, TRANSITIONS, useMounted, withPost } from '@zuzjs/ui';
-import Cookies from 'js-cookie';
+import { Box, Button, Cover, dynamicObject, Form, PinInput, Sheet, SheetHandler, Text, TRANSITION_CURVES, TRANSITIONS, useMounted, Variant, withPost } from '@zuzjs/ui';
 import Link from 'next/link';
-import { redirect, useParams, useRouter } from 'next/navigation';
+import { useParams } from 'next/navigation';
 import React, { useEffect, useMemo, useRef, useState } from 'react';
 
-const Verify : React.FC = (props) => {
+const Verify : React.FC = ( _props) => {
 
     const [ token, em ] = useParams().token ? useParams().token as [] : [ `token`, `em` ]
     const [ resend, setSend ] = useState(false)
@@ -76,13 +72,13 @@ const Verify : React.FC = (props) => {
             }}
             as={`flex aic jcc cols w:350 gap:12`}>
             
-            <Text animate={{ ...anim, delay: 0.1 }} as={`s:18 mb:10 tac`}>We have sent you a verification code{em ? <> to <b>{decodeURIComponent(em)}</b></> : null}</Text>
+            <Text fx={{ ...anim, delay: 0.1 }} as={`s:18 mb:10 tac`}>We have sent you a verification code{em ? <> to <b>{decodeURIComponent(em)}</b></> : null}</Text>
 
-            <PinInput name={`otp`} as={`s:40! b:900`} animate={{ ...anim, delay: 0.25 }} length={6} variant={Size.Medium} required />
+            <PinInput name={`otp`} as={`s:40! b:900`} fx={{ ...anim, delay: 0.25 }} length={6} variant={Variant.Medium} required />
             
-            <Button size={Size.Medium} type={`submit`} as={`mt:25 w:100%!`} animate={{ ...anim, delay: 0.35 }}>Verify</Button>
+            <Button variant={Variant.Medium} type={`submit`} as={`mt:25 w:100%!`} fx={{ ...anim, delay: 0.35 }}>Verify</Button>
 
-            { resend && <Box as={`mt:25 s:16`} animate={{ ...anim, delay: 0.4 }}>Code not received? <Link href={`/u/signup?resend=1`} className={Style.Link}>Re-send code</Link></Box> }
+            { resend && <Box as={`mt:25 s:16`} fx={{ ...anim, delay: 0.4 }}>Code not received? <Link href={`/u/signup?resend=1`} className={Style.Link}>Re-send code</Link></Box> }
 
         </Form>}
     </Box>
