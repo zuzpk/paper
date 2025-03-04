@@ -4,7 +4,6 @@ import createStore from "@zuzjs/store";
 import { Box } from "@zuzjs/ui";
 import "@zuzjs/ui/styles";
 import { ReactNode, useEffect } from "react";
-import Header from "./header";
 import Authenticate from "./oauth";
 
 const Wrapper = ({ children } : Readonly<{ children: ReactNode; }>) => {
@@ -24,7 +23,7 @@ const Main = ({ children } : Readonly<{ children: ReactNode; }>) => {
         <UserProvider>
             <Box as={`app flex minH:100vh cols`}>
                 <Authenticate />
-                <Header />
+                {/* <Header /> */}
                 {children as React.ReactNode}
             </Box>
         </UserProvider>

@@ -1,7 +1,7 @@
 "use client"
 import { AppStore } from '@/store';
 import { useStore } from '@zuzjs/store';
-import { Box, dynamicObject, SPINNER, Spinner, TabView, Text, ucfirst } from '@zuzjs/ui';
+import { Box, camelCase, dynamicObject, SPINNER, Spinner, TabView, Text, ucfirst } from '@zuzjs/ui';
 import { usePathname } from 'next/navigation';
 import React, { useEffect, useMemo, useState } from 'react';
 import Controls from './controls';
@@ -20,12 +20,15 @@ const Preview : React.FC = (_props) => {
         default: any,
         props: any
     } = useMemo(() => {
+        
         const cm = pathname.replace(`/docs/`, ``).split(`/`)
+
         const module = modules[cm.length > 2 ? cm.slice(0, -1).join(`_`) : cm.join(`_`)]
         
         if ( module !== undefined ){
 
-            const _props = cm.length > 2 ? module[ucfirst(cm[cm.length-1])] 
+            const _cm = cm[cm.length-1]
+            const _props = cm.length > 2 ? module[_cm.includes(`-`) ? camelCase(_cm.split(`-`).join(` `), true) : ucfirst(_cm)] 
             :   module.Default || 
                 module.default.props || 
                 { 
@@ -61,16 +64,18 @@ const Preview : React.FC = (_props) => {
             const _code = [`<${title} `]
             Object.keys(localProps)
                 .filter(x => x != `children`)
-                .forEach((k) => {
-                _code.push(`${k}={${localProps[k]}}`)
-            })
-            _code.push(`>`)
-            if ( Module.props.children )
-                _code.push(Module.props.children, `</${title}>`)
+                .forEach((k, i) => {
+                    _code.push(`${i > 0 ? ` ` : ``}\n\t${k}={${JSON.stringify(localProps[k])}}`)
+                })
+            _code.push( Module.props.children ? `>` : ` />`)
+        if ( Module.props.children )
+                _code.push(`\n\t`, Module.props.children, `\n`, `</${title}>`)
             setCode(_code.join(``))
         }
         else setCode(`()=>{}`)
     }, [Module, localProps])
+
+    // console.log(Module, localProps)
 
     return <Box as={`flex:1 rel flex aic jcc bg:fff minH:100vh`}>
 

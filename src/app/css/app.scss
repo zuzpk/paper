@@ -19,7 +19,35 @@ nextjs-portal {
   background:#282A36;
   color: #8BE9FD;
   padding: 20px;
-  font-size: 14px;
+  font-size: 15px;
   height: 100%;
   overflow-x: hidden;
+}
+
+.sidebar{
+  --treenode-label-icon-size: 12px;
+  --treenode-label-icon-color: var(--blue-700);
+  --treenode-label-size: 15px;
+  --treenode-root-label-font-weight: bold;
+  --treenode-label-selected-bg: var(--blue-600);
+  --treenode-label-selected-color: #fff;
+  --treenode-label-hover: #fff;
+  --treenode-label-radius: 6px;
+  --treenode-label-padding: 0px 4px;
+}
+
+[color-scheme="dark"]{
+  .sidebar{
+    --treenode-label-icon-color: var(--blue-100);
+    --treenode-label-selected-color: #fff;
+    --treenode-label-hover: #444;
+    --treenode-label-color: #f9f9f9;
+    --treenode-arrow-icon-color: #fff;
+  }
+}
+
+.--comp-preview-box{
+  .--table{
+    flex: 1;
+  }
 }

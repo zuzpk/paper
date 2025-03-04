@@ -30,14 +30,17 @@ export enum DB {
 }
 
 export type Control<T> = {
-    control?: "select" | "input" | "boolean"; 
-    options?: T,
+    control?: "select" | "input" | "boolean" | "arrayobject" | "array" | "object";
+    options?: T;
     default?: T extends (infer U)[] ? U : keyof T; 
 }
 
 export type ExtractProps<T> = {
     [K in keyof T]: Control<T[K] | T[K][]>;
-};
+}
+//  & {
+//     hasDefault?: boolean;
+// };
   
 export type Paper<T, N> = {
     title: string,

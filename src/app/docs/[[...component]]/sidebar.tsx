@@ -2,7 +2,7 @@
 import { APP_NAME, APP_VERSION } from '@/config';
 import { AppStore } from '@/store';
 import { useStore } from '@zuzjs/store';
-import { Box, ColorScheme, css, dynamicObject, Image, Search, slugify, SPINNER, Spinner, Text, TreeNode, TreeView, ucfirst } from '@zuzjs/ui';
+import { Box, camelCaseToDash, ColorScheme, css, dynamicObject, Image, Search, slugify, SPINNER, Spinner, Text, TreeNode, TreeView, ucfirst } from '@zuzjs/ui';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import React, { useEffect, useMemo } from 'react';
@@ -28,12 +28,16 @@ const Sidebar : React.FC = (_props) => {
             const title = module.default.title.split(`/`)
             const comp = title[title.length - 1]
             const under = slugify(title.slice(0, -1)?.join(`-`) || "") 
-            const meta = title.reduce((p: string[], c: string) => { p.push(slugify(c)); return p; }, [])
+            const meta = title.reduce((p: string[], c: string) => { p.push(slugify(camelCaseToDash(c))); return p; }, [])
 
             _modules[meta.join(`_`)] = module
 
             _root.push(slugify(title[0]))
-            _list.push({ tag: slugify(title[0]), label: title[0], expanded: true })
+            _list.push({ 
+                tag: slugify(title[0]), 
+                label: title[0], 
+                expanded: true
+            })
 
             //Childs
             _list.push({
@@ -48,7 +52,7 @@ const Sidebar : React.FC = (_props) => {
                 .filter((k) => k != `default`)
                 .forEach((k) => {
                     _list.push({
-                        tag: [...meta, slugify(k)].join(`_`),
+                        tag: [...meta, slugify(camelCaseToDash(k))].join(`_`),
                         label: ucfirst(k),
                         under: meta.join(`_`)
                     })
@@ -80,8 +84,12 @@ const Sidebar : React.FC = (_props) => {
             onNodeSelect={onRoute}
             selected={current || roots[0]}
             icons={{
-                arrowClose: `plus-square`,
-                arrowOpen: `minus-square`,
+                rootOpen: `package`,
+                rootClose: `package`,
+                nodeOpen: `grid-four`,
+                nodeClose: `grid-four`,
+                // arrowClose: `arrow-right-2`,
+                // arrowOpen: `arrow-down`,
             }}
             nodes={list}
         />

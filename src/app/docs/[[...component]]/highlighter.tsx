@@ -17,10 +17,10 @@ const CodeHighlighter : React.FC<{ code: string, language : string }> = ({ code,
         const highlight = async () => {
           const starryNight = await createStarryNight(common);
           const _code = await prettier.format(code, {
-            parser: "babel",
-            plugins: [estreeParser, babelParser],
-            // semi: false,
-            singleQuote: true,
+            parser: "babel-ts",
+            plugins: [babelParser, estreeParser],
+            semi: false,
+            singleQuote: false,
             trailingComma: "es5",
             jsxSingleQuote: true,
           })
@@ -40,7 +40,7 @@ const CodeHighlighter : React.FC<{ code: string, language : string }> = ({ code,
         </ToolTip>
         </Box>
         <pre className="code-block">
-        <code dangerouslySetInnerHTML={{ __html: highlightedCode }} />
+        <code dangerouslySetInnerHTML={{ __html: highlightedCode.startsWith(`;`) ? highlightedCode.substring(1, highlightedCode.length) : highlightedCode }} />
         </pre>
         <Sheet ref={toast} />
     </Box>

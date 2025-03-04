@@ -58,7 +58,7 @@ export const Large : PaperVariant<ButtonProps> = {
     variant: Variant.Large
 }
 
-export const Loading : PaperVariant<ButtonProps> = {
+export const LoadingState : PaperVariant<ButtonProps> = {
     children: "Large",
     variant: Variant.Small,
     state: ButtonState.Loading,

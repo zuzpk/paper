@@ -1,5 +1,5 @@
 {
-  "name": "frontend-ts",
+  "name": "paper",
   "version": "0.1.7",
   "private": true,
   "scripts": {
@@ -13,7 +13,7 @@
     "@types/js-cookie": "3.0.6",
     "@wooorm/starry-night": "^3.6.0",
     "@zuzjs/store": "^0.1.4",
-    "@zuzjs/ui": "^0.7.6",
+    "@zuzjs/ui": "^0.7.8",
     "babel": "link:prettier/plugins/babel",
     "estree": "link:prettier/plugins/estree",
     "hast-util-to-html": "^9.0.4",

@@ -7,7 +7,7 @@ const PreviewPortal : React.FC<{
 }> = ({ children }) => {
 
 
-    return <Box as={`w:100% minH:50vh flex:1 flex aic jcc`}>
+    return <Box as={`w:calc[100vw - 300px] minH:50vh flex:1 flex aic jcc p:50 --comp-preview-box`}>
         {children}
     </Box>
 }

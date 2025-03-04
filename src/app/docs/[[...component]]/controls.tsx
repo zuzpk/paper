@@ -19,7 +19,7 @@ const Controls : React.FC<{
                 return {
                     name: k,
                     ...c,
-                    default: args[k],
+                    default: argTypes[k].default == true ? args[k] : null,
                 }
             }) as ({ name: string } & Control<any>)[]
 
